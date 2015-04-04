@@ -10,44 +10,102 @@
   %b Price:
   = @product.price
 
+
+
+
+
+
+/ = render "products/comments"
+
+
+
+
+#comments_content= render "products/comments", :comments => @comments 
+
+
+%br/ 
+%br/
+
+%input{:type => "hidden", :id => "product_id", :value => @product.id}
+
+
+%input{:name => "comment_content", :id => "comment_conetent"}
+%input{:type => "button", :value => "Post me", :id => "btn_post_me"}
+
+
+%br/ 
+%br/
+
+
+%br/ 
+%br/
+
+
+
+/ / todo : update url action for form_for base on http://apidock.com/rails/ActionView/Helpers/FormHelper/form_for
+/ = form_for @explain do |f|
+/   - if @explain.errors.any?
+/     #error_explanation
+/       %h2= "#{pluralize(@explain.errors.count, "error")} prohibited this explain from being saved:"
+/       %ul
+/         - @explain.errors.full_messages.each do |msg|
+/           %li= msg
+
+/   .field
+/     = f.label :content
+/     = f.text_field :content
+/   .field
+/     = f.label :product_id
+/     = f.text_field :product_id
+/   .actions
+/     = f.submit 'Save'
+
+
+
+
+
+
+
+
+
+/ / .commnents
+/ /   / - cms = comments(@product)
+/ /   - comments(@product).each do |comment|
+/ /     %p
+/ /       %span= comment.id
+/ /       %span= comment.content 
+
+/ %p 
+/   %span number of comments:
+/   %span= number_of_comments(@product)
+
 / .commnents
-/   / - cms = comments(@product)
-/   - comments(@product).each do |comment|
+/   - @comments.each do |comment|
 /     %p
 /       %span= comment.id
 /       %span= comment.content 
 
-%p 
-  %span number of comments:
-  %span= number_of_comments(@product)
+/ %br/
+/ %p Post comment
+/ = form_for @comment do |f|
+/   - if @comment.errors.any?
+/     #error_explanation
+/       %h2= "#{pluralize(@comment.errors.count, "error")} prohibited this comment from being saved:"
+/       %ul
+/         - @comment.errors.full_messages.each do |msg|
+/           %li= msg
 
-.commnents
-  - @comments.each do |comment|
-    %p
-      %span= comment.id
-      %span= comment.content 
+/   / .field
+/   /   = f.label :product_id
+/   /   = f.number_field :product_id
 
-%br/
-%p Post comment
-= form_for @comment do |f|
-  - if @comment.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@comment.errors.count, "error")} prohibited this comment from being saved:"
-      %ul
-        - @comment.errors.full_messages.each do |msg|
-          %li= msg
+/   .field
+/     = hidden_field_tag("comment[product_id]", @product.id)
+/     = f.label :content
+/     = f.text_area :content
 
-  / .field
-  /   = f.label :product_id
-  /   = f.number_field :product_id
-
-  .field
-    = hidden_field_tag("comment[product_id]", @product.id)
-    = f.label :content
-    = f.text_area :content
-
-  .actions
-    = f.submit 'Save'
+/   .actions
+/     = f.submit 'Save'
 /test
 
 / .commnents

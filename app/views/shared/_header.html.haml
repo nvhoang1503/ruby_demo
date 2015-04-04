@@ -1,12 +1,19 @@
 #header
-	.example
-		this is header bar
+  .user_login
+    - if user_signed_in?
+      = link_to("Log out", destroy_user_session_path, :method => :delete)
+      / = link_to("Log out", destroy_user_session_path)
+    - else
+      = link_to("Log in", new_user_session_path)
+      / = link_to("Log in", user_session_path, :method => :post)
+  .example
+    this is header bar
 
-	.conten1
-		content 1
-	.content2
-		content 2
-		.sub_content1
-			sub content 1
-		.sub_content_2
-			sub content 2
+  .conten1
+    content 1
+  .content2
+    content 2
+    .sub_content1
+      sub content 1
+    .sub_content_2
+      sub content 2

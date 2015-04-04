@@ -1,6 +1,8 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
+  before_action :authenticate_user!
+
   # GET /products
   # GET /products.json
   def index
@@ -11,7 +13,10 @@ class ProductsController < ApplicationController
   # GET /products/1.json
   def show
     @comments = @product.comments
-    @comment = Comment.new
+    @explains = @product.explains
+    @explain  = Explain.new
+
+    # @comment = Comment.new
   end
 
   # GET /products/new
@@ -39,6 +44,11 @@ class ProductsController < ApplicationController
     end
   end
 
+  def create_explain
+    puts "======== params ===== ", params
+    
+  end
+
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json
   def update
@@ -61,6 +71,37 @@ class ProductsController < ApplicationController
       format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+
+  def post_comment
+    puts "====== ha ha  I am here ...======"
+    product_id      = params[:product_id]
+    comment_content = params[:comment_content]
+
+    # Comment.create(:product_id => product_id, :content => comment_content)
+
+
+    comment = Comment.new(:product_id => product_id, :content => comment_content)
+    comment.save
+
+    comments = Comment.where(:product_id => product_id)
+
+    render :partial => "products/comments", :locals => {:comments => comments}
+    # to do 
+    # comment.update_attributes(:aaa => "dssdfdsfd", :sdsf => "weewweew")
+    # comment.update_attribute("aaa" ,"dssdfdsfd")
+
+    # comment.update_attributes(:aaa => "dssdfdsfd")
+
+
+
+
+
+
+    puts "====== Save comment successfully...======"
+    puts "====== product_id: ", product_id
+    puts "====== comment_content: ", comment_content
   end
 
   private

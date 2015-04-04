@@ -1,7 +1,16 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :comments
 
-  resources :products
+  resources :products do
+    member do
+      post 'create_explain'
+    end
+    collection do
+      get "post_comment"
+    end
+  end
+
 
   get 'homes/index'
 
